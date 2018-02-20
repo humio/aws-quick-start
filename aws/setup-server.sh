@@ -1,4 +1,6 @@
-#!/bin/bash -xe
+#!/bin/bash
+set -e
+set -x
 
 DIR=`dirname $0`
 
@@ -21,7 +23,17 @@ net.core.rmem_max=16777216
 EOF
 cp 99-humio.conf /etc/sysctl.d/99-humio.conf
 
+cp $DIR/humio-mount-datadir.service /etc/systemd/system/
+systemctl enable humio-mount-datadir.service
+systemctl daemon-reload
+systemctl start humio-mount-datadir
 
+#install docker
+if [ ! -f "/usr/bin/docker" ]; then
+    curl -fsSL https://get.docker.com/ | sh
+fi
+
+service docker restart
 
 ### If we haven't got a humio configuration file we should create a default one matching the about of memory availabe on the instance
 if [ ! -e /etc/humio.conf ]; then
@@ -36,15 +48,6 @@ if [ ! -e /etc/humio.conf ]; then
     fi
 fi
 
-cp $DIR/humio-mount-datadir.service /etc/systemd/system/
-systemctl enable humio-mount-datadir.service
-systemctl daemon-reload
-systemctl start humio-mount-datadir
-
-#install docker
-if [ ! -f "/usr/bin/docker" ]; then
-    curl -fsSL https://get.docker.com/ | sh
-fi
-
-service docker restart
-
+docker login $1
+docker pull humio/humio
+docker run --name=humio -d --restart=always -v /data:/data --net=host --env-file /etc/humio.conf humio/humio

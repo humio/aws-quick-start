@@ -1,4 +1,6 @@
-#!/bin/bash -xe
+#!/bin/bash
+set -e
+set -x
 
 FSREADY="false"
 

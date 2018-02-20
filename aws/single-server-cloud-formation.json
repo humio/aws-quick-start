@@ -14,6 +14,11 @@
             "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
         },
 
+        "login": {
+            "Description" : "Login parameters to docker login: '-u <username> -p <password>",
+            "Type": "String"
+        },
+
         "VolumeSize" : {
             "Description" : "Size (in GB) of the data volume created",
             "Type" : "Number",
@@ -47,8 +52,8 @@
             "eu-central-1": { "id": "ami -fca5c193"},
             "us-east-2": { "id": "ami -9a88bdff"},
             "us-west-1": { "id": "ami -0d5f516d"},
-            "us-west-2": { "id": "ami -6be76013"},
-        },
+            "us-west-2": { "id": "ami -6be76013"}
+        }
     },
 
     "Resources" : {
@@ -77,13 +82,16 @@
                 "KeyName"        : { "Ref" : "KeyName" },
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
                     "#!/bin/bash -xe\n",
-                    "mkdir /opt",
-                    "cd /opt",
+                    "echo \"=== Begin =========================================================================================================\"\n",
+                    "mkdir -p /opt\n",
+                    "cd /opt\n",
                     "apt-get update\n",
-                    "apt-get -y install git"
-                    "git clone git@github.com:humio/humio-operations.git",
-                    "cd humio-operations",
-                    "bash aws/setup-server.sh"
+                    "apt-get -y install git\n",
+                    "git clone https://github.com/humio/humio-operations.git\n",
+                    "cd humio-operations\n",
+                    "echo \"=== Provisioning =========================================================================================================\"\n",
+                    "bash aws/setup-server.sh", { "Ref" : "login" }, "\n",
+                    "echo \"=== Done =========================================================================================================\"\n"
 		]]}}
             }
         },
