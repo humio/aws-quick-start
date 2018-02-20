@@ -90,7 +90,9 @@
                     "git clone https://github.com/humio/humio-operations.git\n",
                     "cd humio-operations\n",
                     "echo \"=== Provisioning =========================================================================================================\"\n",
-                    "bash aws/setup-server.sh \"", { "Ref" : "login" }, "\"\n",
+                    "bash aws/provision-aws-ubuntu-server.sh\n",
+                    "echo \"=== Setup Server =========================================================================================================\"\n",
+                    "bash ubuntu/setup-server.sh \"", { "Ref" : "login" }, "\"\n",
                     "echo \"=== Done =========================================================================================================\"\n"
 		]]}}
             }
