@@ -36,23 +36,23 @@
 
     "Mappings" : {
         "HumioAMI" : {
-            "us-east-1": { "id": "ami -8d6642f7" },
-            "ap-south-1": { "id": "ami -45ca992a"},
-            "eu-west-3": { "id": "ami -08ac1a75"},
-            "eu-west-2": { "id": "ami -26ba5f41"},
+            "us-east-1": { "id": "to-come"},
+            "ap-south-1": { "id": "to-come"},
+            "eu-west-3": { "id": "to-come"},
+            "eu-west-2": { "id": "to-come"},
 
             "eu-west-1": { "id": "ami-1b791862"},
 
-            "ap-northeast-2": { "id": "ami -e5a1038b"},
-            "ap-northeast-1": { "id": "ami -e52c5a83"},
-            "sa-east-1": { "id": "ami -6e3e7002"},
-            "ca-central-1": { "id": "am i-03a22667"},
-            "ap-southeast-1": { "id": "ami -a883c2d4"},
-            "ap-southeast-2": { "id": "ami -c52ad1a7"},
-            "eu-central-1": { "id": "ami -fca5c193"},
-            "us-east-2": { "id": "ami -9a88bdff"},
-            "us-west-1": { "id": "ami -0d5f516d"},
-            "us-west-2": { "id": "ami -6be76013"}
+            "ap-northeast-2": { "id": "to-come"},
+            "ap-northeast-1": { "id": "to-come"},
+            "sa-east-1": { "id": "to-come"},
+            "ca-central-1": { "id": "to-come"},
+            "ap-southeast-1": { "id": "to-come"},
+            "ap-southeast-2": { "id": "to-come"},
+            "eu-central-1": { "id": "to-come"},
+            "us-east-2": { "id": "to-come"},
+            "us-west-1": { "id": "to-come"},
+            "us-west-2": { "id": "to-come"}
         }
     },
 
@@ -61,6 +61,7 @@
         "HumioInstance": {
             "Type" : "AWS::EC2::Instance",
             "Properties": {
+                "Tags": [{"Key": "Name", "Value": "Humio Instance"}],
                 "ImageId" : { "Fn::FindInMap" : [ "HumioAMI", { "Ref" : "AWS::Region" }, "id" ] },
                 "InstanceType"   : { "Ref" : "HumioInstanceType" },
                 "BlockDeviceMappings": [
@@ -82,18 +83,14 @@
                 "KeyName"        : { "Ref" : "KeyName" },
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
                     "#!/bin/bash -xe\n",
-                    "echo \"=== Begin =========================================================================================================\"\n",
                     "mkdir -p /opt\n",
                     "cd /opt\n",
                     "apt-get update\n",
                     "apt-get -y install git\n",
                     "git clone https://github.com/humio/humio-operations.git\n",
                     "cd humio-operations\n",
-                    "echo \"=== Provisioning =========================================================================================================\"\n",
                     "bash aws/provision-aws-ubuntu-server.sh\n",
-                    "echo \"=== Setup Server =========================================================================================================\"\n",
-                    "bash ubuntu/setup-server.sh \"", { "Ref" : "login" }, "\"\n",
-                    "echo \"=== Done =========================================================================================================\"\n"
+                    "bash ubuntu/setup-server.sh \"", { "Ref" : "login" }, "\"\n"
 		]]}}
             }
         },
@@ -101,6 +98,7 @@
         "SecurityGroup" : {
             "Type" : "AWS::EC2::SecurityGroup",
             "Properties" : {
+                "Tags": [{"Key": "Name", "Value": "Humio Instance"}],
                 "GroupDescription" : "Enable HTTP access via port 80 locked down to the ELB and SSH access",
                 "SecurityGroupIngress" : [
                     {
