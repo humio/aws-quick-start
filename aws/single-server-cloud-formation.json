@@ -90,7 +90,7 @@
                     "git clone https://github.com/humio/aws-quick-start.git\n",
                     "cd aws-quick-start\n",
                     "bash aws/provision-aws-ubuntu-server.sh\n",
-                    "bash ubuntu/setup-server.sh \"", { "Ref" : "login" }, "\"\n"
+                    "bash aws/setup-server.sh \"", { "Ref" : "login" }, "\"\n"
 		]]}}
             }
         },
