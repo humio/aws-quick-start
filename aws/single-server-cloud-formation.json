@@ -2,6 +2,11 @@
     "AWSTemplateFormatVersion" : "2010-09-09",
     "Description" : "AWS CloudFormation Template for setting up Humio performance test",
     "Parameters" : {
+        "AvailabilityZone": {
+            "Description": "Availability Zone of the Humio instance",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+
         "WebAccess": {
             "Description" : "Cidr restricting access to Humio. Use 0.0.0.0/0 for unrestricted access",
             "Type" : "String",
@@ -60,6 +65,7 @@
             "Type" : "AWS::EC2::Instance",
             "Properties": {
                 "Tags": [{"Key": "Name", "Value": "Humio Instance"}],
+                "AvailabilityZone": { "Ref": "AvailabilityZone"},
                 "ImageId" : { "Fn::FindInMap" : [ "HumioAMI", { "Ref" : "AWS::Region" }, "id" ] },
                 "InstanceType"   : { "Ref" : "HumioInstanceType" },
                 "BlockDeviceMappings": [
