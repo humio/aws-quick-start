@@ -2,8 +2,7 @@ Note, this repository is **Work In Progress!**
 
 # AWS Quick Start Humio
 
-Cloud Formation Template that makes it really easy to try Humio on
-your own AWS Account. Just hit the "Launch Stack" button and follow the run-stack wizard.
+Just hit the "Launch Stack" button and follow the Create stack wizard.
 
 [![Install Humio on AWS](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png "Install Humio on AWS")](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=Humio&templateURL=https://s3-eu-west-1.amazonaws.com/humio-aws-quick-start/single-server-cloud-formation.json)
 
@@ -12,18 +11,20 @@ your own AWS Account. Just hit the "Launch Stack" button and follow the run-stac
 The template will create a single instance with a corresponding data
 volume and start Humio. Humio will be started listening for HTTP
 traffic on port 8080, but the template have an option to restrict
-access base on IP range. For a production setup we advise you to put a
+access based on IP range. For a production setup we advise you to put a
 HTTPS proxy in front of Humio or place it inside your VPC.
+
+## Sizing
 
 Choosing the right instance size depends on your ingest volume and
 usage patterns. As a general guideline the following table is a
 starting point to size your Humio instance.
 
-Up to 5 GB/day: m4.medium
-Up to 15 GB/day: m4.large
-Up to 35 GB/day: m4.xlarge
-Up to 75 GB/day: m4.2xlarge
-Up to 150 GB/day: m4.4xlarge
+- Up to 5 GB/day: m4.medium
+- Up to 15 GB/day: m4.large
+- Up to 35 GB/day: m4.xlarge
+- Up to 75 GB/day: m4.2xlarge
+- Up to 150 GB/day: m4.4xlarge
 
 For the general documentation of Humio, [click
 here](https://cloud.humio.com/docs/)
