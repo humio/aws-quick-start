@@ -85,8 +85,8 @@
                     "cd /opt\n",
                     "apt-get update\n",
                     "apt-get -y install git\n",
-                    "git clone https://github.com/humio/aws-quick-start.git\n",
-                    "cd aws-quick-start\n",
+                    "git clone https://github.com/humio/aws-quick-start.git humio-aws-quick-start\n",
+                    "cd humio-aws-quick-start\n",
                     "bash aws/provision-aws-ubuntu-server.sh\n",
                     "bash aws/setup-server.sh \"", { "Ref" : "login" }, "\"\n"
 		]]}}

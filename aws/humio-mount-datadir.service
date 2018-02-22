@@ -6,7 +6,7 @@ Before=docker.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash /opt/humio-operations/aws/humio-mount-datadir.sh
+ExecStart=/bin/bash /opt/humio-aws-quick-start/aws/humio-mount-datadir.sh
 
 [Install]
 RequiredBy=docker.service
