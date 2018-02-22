@@ -7,13 +7,13 @@
             "Type": "AWS::EC2::AvailabilityZone::Name"
         },
 
-        "WebAccess": {
+        "AccessRestriction": {
             "Description" : "Cidr restricting access to Humio. Use 0.0.0.0/0 for unrestricted access",
             "Type" : "String",
             "AllowedPattern" : "((\\d{1,3})\\.){3}\\d{1,3}/\\d{1,2}"
         },
 
-        "KeyName": {
+        "SSHKeyName": {
             "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
             "Type": "AWS::EC2::KeyPair::KeyName",
             "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
@@ -30,7 +30,7 @@
             "Default" : "100"
         },
 
-        "HumioInstanceType" : {
+        "InstanceType" : {
             "Description" : "Humio EC2 instance type",
             "Type" : "String",
             "Default" : "m4.xlarge",
@@ -67,7 +67,7 @@
                 "Tags": [{"Key": "Name", "Value": "Humio Instance"}],
                 "AvailabilityZone": { "Ref": "AvailabilityZone"},
                 "ImageId" : { "Fn::FindInMap" : [ "HumioAMI", { "Ref" : "AWS::Region" }, "id" ] },
-                "InstanceType"   : { "Ref" : "HumioInstanceType" },
+                "InstanceType"   : { "Ref" : "InstanceType" },
                 "BlockDeviceMappings": [
                     {
                         "DeviceName": "/dev/sda1",
@@ -84,7 +84,7 @@
                     }
                 ],
                 "SecurityGroups" : [ {"Ref" : "SecurityGroup"} ],
-                "KeyName"        : { "Ref" : "KeyName" },
+                "KeyName"        : { "Ref" : "SSHKeyName" },
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
                     "#!/bin/bash -xe\n",
                     "mkdir -p /opt\n",
@@ -109,7 +109,7 @@
                         "IpProtocol" : "tcp",
                         "FromPort" : "8080",
                         "ToPort" : "8080",
-                        "CidrIp" : { "Ref": "WebAccess" }
+                        "CidrIp" : { "Ref": "AccessRestriction" }
                     },
                     {
                         "IpProtocol" : "tcp",
