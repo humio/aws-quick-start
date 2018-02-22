@@ -20,7 +20,7 @@ HTTPS proxy in front of Humio or place it inside your VPC.
 
 Choosing the right instance size depends on your ingest volume and
 usage patterns. As a general guideline the following table is a
-starting point to size your Humio instance.
+starting point for sizing your Humio instance.
 
 - Up to 5 GB/day: m4.medium
 - Up to 15 GB/day: m4.large
