@@ -6,7 +6,9 @@ Just hit the "Launch Stack" button and follow the Create stack wizard.
 
 [![Install Humio on AWS](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png "Install Humio on AWS")](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=Humio&templateURL=https://s3-eu-west-1.amazonaws.com/humio-aws-quick-start/single-server-cloud-formation.json)
 
-## Some things to note
+Launch Stack for VPC: stay tuned...
+
+## Restrict Access
 
 The template will create a single instance with a corresponding data
 volume and start Humio. Humio will be started listening for HTTP
