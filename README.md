@@ -2,9 +2,9 @@ Note, this repository is **Work In Progress!**
 
 # Humio - AWS Quick Start
 
-This guide will let you get started running with Humio on AWS.
-It uses AWS stack templates and will create a single instance of Humio with
-a connected data volume. 
+This guide will let you get started running with Humio on AWS.  It
+uses AWS Cloud Formation templates and will create a single instance
+of Humio with a connected data volume.
 
 Just hit the "Launch Stack" button and follow the Create Stack Wizard.
 
@@ -14,9 +14,10 @@ Launch Stack for VPC: stay tuned...
 
 ## Access Control
 
-Humio will listen for HTTP traffic on port 8080, but the template have an option to restrict
-access based on IP range. For a production setup we advise you to put a
-HTTPS proxy in front of Humio or place it inside your VPC.
+Humio will listen for HTTP traffic on port 8080, but the template have
+an option to restrict access based on IP range. For a production setup
+we advise you to put a HTTPS proxy in front of Humio or place it
+inside your VPC.
 
 ## Sizing
 
