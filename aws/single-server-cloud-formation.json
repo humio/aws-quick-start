@@ -19,11 +19,6 @@
             "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
         },
 
-        "login": {
-            "Description" : "Login parameters to docker login: '-u <username> -p <password>",
-            "Type": "String"
-        },
-
         "VolumeSize" : {
             "Description" : "Size (in GB) of the data volume created",
             "Type" : "Number",
@@ -40,7 +35,7 @@
     },
 
     "Mappings" : {
-        "HumioAMI" : {
+        "AMIImage" : {
             "us-east-1": { "id": "ami-66506c1c" },
             "ap-south-1": { "id": "ami-84e3b2eb" },
             "eu-west-3": { "id": "ami-c1cf79bc" },
@@ -66,7 +61,7 @@
             "Properties": {
                 "Tags": [{"Key": "Name", "Value": "Humio Instance"}],
                 "AvailabilityZone": { "Ref": "AvailabilityZone"},
-                "ImageId" : { "Fn::FindInMap" : [ "HumioAMI", { "Ref" : "AWS::Region" }, "id" ] },
+                "ImageId" : { "Fn::FindInMap" : [ "AMIImage", { "Ref" : "AWS::Region" }, "id" ] },
                 "InstanceType"   : { "Ref" : "InstanceType" },
                 "BlockDeviceMappings": [
                     {
@@ -94,7 +89,7 @@
                     "git clone https://github.com/humio/aws-quick-start.git humio-aws-quick-start\n",
                     "cd humio-aws-quick-start\n",
                     "bash aws/provision-aws-ubuntu-server.sh\n",
-                    "bash aws/setup-server.sh \"", { "Ref" : "login" }, "\"\n"
+                    "bash aws/setup-server.sh\n"
 		]]}}
             }
         },

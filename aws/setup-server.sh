@@ -34,6 +34,5 @@ if [ ! -e /etc/humio.conf ]; then
 fi
 
 service docker restart
-docker login $1
 docker pull humio/humio
-docker run --name=humio -d --restart=always -v /data:/data --net=host --env-file /etc/humio.conf humio/humio
+docker run --rm --name=humio -d --restart=always -v /data:/data --net=host --env-file /etc/humio.conf humio/humio
