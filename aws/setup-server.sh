@@ -35,4 +35,4 @@ fi
 
 service docker restart
 docker pull humio/humio
-docker run --rm --name=humio -d --restart=always -v /data:/data --net=host --env-file /etc/humio.conf humio/humio
+docker run --name=humio -d --restart=always -v /data:/data --net=host --env-file /etc/humio.conf humio/humio
