@@ -31,8 +31,7 @@ starting point for sizing your Humio instance.
 - Up to 75 GB/day: m4.2xlarge
 - Up to 150 GB/day: m4.4xlarge
 
-For the general documentation of Humio, [click
-here](https://cloud.humio.com/docs/)
+To find out more about Humio, please see our [documentation pages](https://docs.humio.com).
 
 If you have questions or need help, send us a mail on
 [support@humio.com](mailto:support@humio.com) or join our Slack
