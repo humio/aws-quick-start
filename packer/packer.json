@@ -1,0 +1,49 @@
+{
+    "builders": [
+      {
+        "type": "amazon-ebs",
+        "ami_name" : "humio-{{timestamp}}",
+        "instance_type": "t2.medium",
+        "region": "eu-west-2",
+        "source_ami_filter": {
+          "filters": {
+            "virtualization-type": "hvm",
+            "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+            "root-device-type": "ebs"
+          },
+          "owners": ["099720109477"],
+          "most_recent": true
+        },
+        "ami_block_device_mappings": [
+          {
+          "delete_on_termination": false,
+          "device_name": "/dev/sdh",
+          "volume_size": 100,
+          "volume_type": "gp2"
+          }
+        ],
+        "ami_virtualization_type": "hvm",
+        "ssh_keypair_name": "humio",
+        "ssh_agent_auth": true,
+        "ssh_username": "ubuntu"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "file",
+        "source": "./humio-boot.sh",
+        "destination": "/tmp/humio-boot.sh"
+      },
+      {
+        "type": "shell",
+        "inline": [
+          "sudo mv /tmp/humio-boot.sh /var/lib/cloud/scripts/per-boot/humio-boot.sh",
+          "sudo chmod 755 /var/lib/cloud/scripts/per-boot/humio-boot.sh"
+        ]
+      },
+      {
+        "type": "ansible",
+        "playbook_file": "ansible/main.yml"
+      }
+    ]
+  }
