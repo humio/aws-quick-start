@@ -9,6 +9,7 @@ The AWS AMI is built using [Hashicorp Packer](https://www.packer.io/).
 You should ensure that the following are in place:
 
 - Install [Packer](https://www.packer.io/downloads.html) (> version 1.2.3)
+- Install [Ansible](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (> version 2.5)
 - Install the [AWS CLI]()
 - [Configure AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in your local environment - using either environment variables, the AWS credentials file or the CLI credentials file - so that Packer can connect to the AWS API
 
