@@ -17,7 +17,9 @@ You should ensure that the following are in place:
 
 To build the AMI run:
 
-`packer build packer.json`
+`packer build -var 'aws_region=[AWS_REGION]' packer.json`
+
+Where AWS region is the region you wish to build the AMI in (e.g. us-east-1)
 
 This will create an AMI in your AWS account. At present this is hardcoded to eu-west-2 but will be upgraded shortly to use a parameterised region.
 
