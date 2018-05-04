@@ -1,0 +1,86 @@
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/
+    
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  gather_facts: no
+  pre_tasks:
+  
+    - name: Install Python2
+      raw: sudo apt-get -y install python-simplejson
+      
+
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  gather_facts: yes   
+  tasks:
+  
+    - name: Write limits file
+      copy:
+        src: humio-limits.conf
+        dest: /etc/security/limits.d/humio-limits.conf  
+      
+    - name: Write sysctrl file
+      copy:
+        src: 99-humio.conf 
+        dest: /etc/sysctl.d/99-humio.conf
+
+    - name: Remove unwanted APT dependencies
+      apt:
+        name: "{{ item }}"
+        state: absent
+        update_cache: yes
+      with_items:
+        - "docker"
+        - "docker-engine"
+        - "docker.io"
+
+    - name: Install APT dependencies
+      apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      with_items:
+        - "curl"
+        - "apt-transport-https"
+        - "ca-certificates"
+        - "software-properties-common"
+        - "python-pip"
+        
+    - name: Install PIP dependencies
+      pip:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - "docker-py"
+
+    - name: Install Docker Repo Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
+        state: present
+
+    - name: Install Docker Repo
+      apt_repository: 
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable' 
+        state: present
+        update_cache: yes
+
+    - name: Install Docker
+      apt: 
+        name: docker-ce 
+        state: present
+        update_cache: yes
+
+    - service: 
+        name: docker 
+        state: restarted
+
+    - name: Pull Humio image
+      docker_image:
+        name: humio/humio
+
+
+# Cloud init sets the /etc/humio.conf file and runs the humio image
+
