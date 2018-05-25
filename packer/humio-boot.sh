@@ -3,7 +3,7 @@ set -e
 set -x
 
 # If we haven't got a humio configuration file we should create a default one
-# matching the about of memory availabe on the instance
+# matching the amout of memory availabe on the instance
 
 if [ ! -e /etc/humio.conf ]; then
     MEM=`cat /proc/meminfo | grep MemTotal | sed -r 's/MemTotal: +(.*) kB/\1/'`
