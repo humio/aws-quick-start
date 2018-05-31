@@ -47,7 +47,6 @@ You can run the AWS AMI by launching it through the AWS console.
 
 You must use at least a t2.medium (or other instance type with at least 2Gb RAM). Choosing the right instance size depends on your ingest volume and usage patterns. As a general guideline the following table is a starting point for sizing your Humio instance.
 
-- Up to 5 GB/day: m4.medium
 - Up to 15 GB/day: m4.large
 - Up to 35 GB/day: m4.xlarge
 - Up to 75 GB/day: m4.2xlarge
