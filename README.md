@@ -25,7 +25,6 @@ Choosing the right instance size depends on your ingest volume and
 usage patterns. As a general guideline the following table is a
 starting point for sizing your Humio instance.
 
-- Up to 5 GB/day: m4.large
 - Up to 15 GB/day: m4.large
 - Up to 35 GB/day: m4.xlarge
 - Up to 75 GB/day: m4.2xlarge
