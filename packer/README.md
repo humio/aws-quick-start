@@ -28,7 +28,6 @@ Variables are:
 * **aws_region**: AWS region to build image in (default: "us-east-1")
 * **data\_disk\_size**: Size of data disk (default: 100 Gb)
 * **humio_version**: Version of Humio docker image to install (default: 1.0.59)
-* **ssh\_key\_pair**: AWS EC2 key pair to connect to EC2 instance being packed (default: humio)
 
 So if you wanted to specify all variables:  
 ```packer build -var 'aws_region=us-east-1' -var 'data_disk_size=100' -var 'humio_version: 1.0.59' -var 'ssh_key_pair=humio' packer.json
