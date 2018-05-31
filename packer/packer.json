@@ -1,10 +1,16 @@
 {
-    "builders": [
+  "variables": {
+    "aws_region": "us-east-1",
+    "data_disk_size": "100",
+    "humio_version": "1.0.59",
+    "ssh_key_pair": "humio"
+  },
+  "builders": [
       {
         "type": "amazon-ebs",
-        "ami_name" : "humio-{{timestamp}}",
+        "ami_name" : "humio-{{user `humio_version`}}-{{timestamp}}",
         "instance_type": "t2.medium",
-        "region": "eu-west-2",
+        "region": "{{user `aws_region`}}",
         "source_ami_filter": {
           "filters": {
             "virtualization-type": "hvm",
@@ -18,7 +24,7 @@
           {
           "delete_on_termination": false,
           "device_name": "/dev/sdh",
-          "volume_size": 100,
+          "volume_size": "{{user `data_disk_size`}}",
           "volume_type": "gp2"
           }
         ],

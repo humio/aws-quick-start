@@ -1,29 +1,29 @@
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/
-
+    
 - hosts: all
   remote_user: ubuntu
   become: yes
   gather_facts: no
   pre_tasks:
-
+  
     - name: Install Python2
       raw: sudo apt-get -y install python-simplejson
-
+      
 
 - hosts: all
   remote_user: ubuntu
   become: yes
-  gather_facts: yes
+  gather_facts: yes   
   tasks:
-
+  
     - name: Write limits file
       copy:
         src: humio-limits.conf
-        dest: /etc/security/limits.d/humio-limits.conf
-
+        dest: /etc/security/limits.d/humio-limits.conf  
+      
     - name: Write sysctrl file
       copy:
-        src: 99-humio.conf
+        src: 99-humio.conf 
         dest: /etc/sysctl.d/99-humio.conf
 
     - name: Remove unwanted APT dependencies
@@ -47,7 +47,7 @@
         - "ca-certificates"
         - "software-properties-common"
         - "python-pip"
-
+        
     - name: Install PIP dependencies
       pip:
         name: "{{ item }}"
@@ -62,24 +62,31 @@
         state: present
 
     - name: Install Docker Repo
-      apt_repository:
-        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+      apt_repository: 
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable' 
         state: present
         update_cache: yes
 
     - name: Install Docker
-      apt:
-        name: docker-ce
+      apt: 
+        name: docker-ce 
         state: present
         update_cache: yes
 
-    - service:
-        name: docker
+    - service: 
+        name: docker 
         state: restarted
 
     - name: Pull Humio image
       docker_image:
         name: humio/humio
 
+    - name: Upgrade all packages to the latest version
+      apt:
+        name: "*"
+        state: latest
+        force_apt_get: true
+
 
 # Cloud init sets the /etc/humio.conf file and runs the humio image
+

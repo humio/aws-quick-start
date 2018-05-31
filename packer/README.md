@@ -9,6 +9,7 @@ The AWS AMI is built using [Hashicorp Packer](https://www.packer.io/).
 You should ensure that the following are in place:
 
 - Install [Packer](https://www.packer.io/downloads.html) (> version 1.2.3)
+- Install [Ansible](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (> version 2.5)
 - Install the [AWS CLI]()
 - [Configure AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in your local environment - using either environment variables, the AWS credentials file or the CLI credentials file - so that Packer can connect to the AWS API
 
@@ -17,6 +18,23 @@ You should ensure that the following are in place:
 To build the AMI run:
 
 `packer build packer.json`
+
+You may want to add variables in the format `-var '[variable]=[value]'`  
+e.g.   
+`packer build -var 'aws_region=eu-west-1' packer.json`
+
+Variables are:
+
+* **aws_region**: AWS region to build image in (default: "us-east-1")
+* **data\_disk\_size**: Size of data disk (default: 100 Gb)
+* **humio_version**: Version of Humio docker image to install (default: 1.0.59)
+* **ssh\_key\_pair**: AWS EC2 key pair to connect to EC2 instance being packed (default: humio)
+
+So if you wanted to specify all variables:  
+```packer build -var 'aws_region=us-east-1' -var 'data_disk_size=100' -var 'humio_version: 1.0.59' -var 'ssh_key_pair=humio' packer.json
+```
+
+
 
 This will create an AMI in your AWS account. At present this is hardcoded to eu-west-2 but will be upgraded shortly to use a parameterised region.
 
