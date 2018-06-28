@@ -19,6 +19,9 @@ if [ ! -e /etc/humio.conf ]; then
         echo "ERROR: Not enough memory"
         exit 3
     fi
+    INSTANCEID=`curl http://169.254.169.254/latest/meta-data/instance-id`
+    echo "AUTHENTICATION_METHOD=single-user" >> /etc/humio.conf
+    echo "SINGLE_USER_PASSWORD=${INSTANCEID}" >> /etc/humio.conf
 fi
 
 
