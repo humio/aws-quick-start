@@ -2,7 +2,7 @@
   "variables": {
     "aws_region": "us-east-1",
     "data_disk_size": "100",
-    "humio_version": "1.0.59"
+    "humio_version": "1.1"
   },
   "builders": [
       {
