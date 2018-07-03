@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description" : "AWS CloudFormation Template for setting up Humio performance test",
+    "Description" : "AWS CloudFormation Template for setting up a single-node Humio instance",
     "Parameters" : {
         "AvailabilityZone": {
             "Description": "Availability Zone of the Humio instance",
