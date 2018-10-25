@@ -60,7 +60,6 @@
             "Type" : "AWS::EC2::Instance",
             "Properties": {
                 "Tags": [{"Key": "Name", "Value": "Humio Instance"}],
-                "AvailabilityZone": { "Ref": "AvailabilityZone"},
                 "ImageId" : { "Fn::FindInMap" : [ "AMIImage", { "Ref" : "AWS::Region" }, "id" ] },
                 "InstanceType"   : { "Ref" : "InstanceType" },
                 "BlockDeviceMappings": [
@@ -78,7 +77,14 @@
                         }
                     }
                 ],
-                "SecurityGroups" : [ {"Ref" : "SecurityGroup"} ],
+                "NetworkInterfaces": [
+                    {
+                        "SubnetId": { "Ref": "Subnet" },
+                        "AssociatePublicIpAddress": "true",
+                        "DeviceIndex": "0",
+                        "GroupSet": [{ "Ref" : "SecurityGroup" }]
+                    }
+                ],
                 "KeyName"        : { "Ref" : "SSHKeyName" },
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
                     "#!/bin/bash -xe\n",
@@ -94,11 +100,29 @@
             }
         },
 
+        "HumioVPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "10.192.0.0/16",
+                "EnableDnsHostnames": true
+            }
+        },
+        "Subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": { "Ref": "AvailabilityZone" },
+                "VpcId": { "Ref": "HumioVPC" },
+                "CidrBlock": "10.192.10.0/24",
+                "MapPublicIpOnLaunch": true
+            }
+        },
         "SecurityGroup" : {
             "Type" : "AWS::EC2::SecurityGroup",
             "Properties" : {
                 "Tags": [{"Key": "Name", "Value": "Humio Instance"}],
+                "GroupName" : "Humio",
                 "GroupDescription" : "Enable HTTP access via port 80 locked down to the ELB and SSH access",
+                "VpcId": {"Ref": "HumioVPC"},
                 "SecurityGroupIngress" : [
                     {
                         "IpProtocol" : "tcp",
@@ -113,6 +137,39 @@
                         "CidrIp" : "0.0.0.0/0"
                     }
                 ]
+            }
+        },
+        "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {}
+        },
+        "VPCGatewayAttachment": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": { "Ref": "HumioVPC"},
+                "InternetGatewayId": {"Ref": "InternetGateway"}
+            }
+        },
+        "RouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": { "Ref": "HumioVPC" }
+            }
+        },
+        "InternetRoute": {
+            "Type": "AWS::EC2::Route",
+            "DependsOn": "VPCGatewayAttachment",
+            "Properties": {
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": { "Ref": "InternetGateway"},
+                "RouteTableId": { "Ref": "RouteTable" }
+            }
+        },
+        "SubnetRouteTableAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": { "Ref": "RouteTable"},
+                "SubnetId": { "Ref": "Subnet" }
             }
         }
     },
