@@ -28,8 +28,11 @@
         "InstanceType" : {
             "Description" : "Humio EC2 instance type",
             "Type" : "String",
-            "Default" : "m4.xlarge",
-            "AllowedValues" : [ "t2.small", "t2.medium", "t2.large", "m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge"],
+            "Default" : "i3.8xlarge",
+            "AllowedValues" : [ "t2.small", "t2.medium", "t2.large",
+				"i3.large", "i3.xlarge", "i3.2xlarge", "i3.4xlarge", "i3.8xlarge",
+				"m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge",
+			        "m5d.large", "m5d.xlarge", "m5d.2xlarge", "m5d.4xlarge", "m5d.12xlarge" ],
             "ConstraintDescription" : "must be a valid EC2 instance type."
         }
     },

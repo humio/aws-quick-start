@@ -24,9 +24,7 @@ EOF
 cp 99-humio.conf /etc/sysctl.d/99-humio.conf
 
 # install docker
-if [ ! -f "/usr/bin/docker" ]; then
-    curl -fsSL https://get.docker.com/ | sh
-fi
+apt-get install -y -qq --no-install-recommends docker.io
 
 # Ensure that a Humio configuration file exists
 if [ ! -e /etc/humio.conf ]; then
@@ -35,4 +33,4 @@ fi
 
 service docker restart
 docker pull humio/humio
-docker run --name=humio -d --restart=always -v /data:/data --net=host --env-file /etc/humio.conf humio/humio
+docker run --name=humio -d --restart=always -v /data:/data -v /humiocache:/humiocache --net=host --env-file /etc/humio.conf humio/humio
